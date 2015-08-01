@@ -8,18 +8,24 @@ if ( ! class_exists( 'ACF_To_WP_REST_API_Options' ) ) {
 	class ACF_To_WP_REST_API_Options extends ACF_To_WP_REST_API_Base {
 
 		public function register_routes( $routes ) {
-			$routes['/acf/options'] = array( 
+			$routes["/acf/{$this->type}"] = array( 
 				array( array( __CLASS__, 'get_options' ), WP_JSON_Server::READABLE ),
 			);
 
+			$routes["/acf/(?P<name>\w+)/{$this->type}"] = array( 
+				array( array( __CLASS__, 'get_options' ), WP_JSON_Server::READABLE ),
+			);
+			
 			return $routes;
 		}
 
-		public static function get_options() {
-			if ( $options = get_fields( 'option' ) ) {
-				return $options;
+		public static function get_options( $name = NULL ) {
+			if ( $name ) {
+				$option = get_field( $name, 'option' );
+				return array( $name => $option );
+			} else {
+				return get_fields( 'option' );
 			}
-			return array();
 		}
 
 	}

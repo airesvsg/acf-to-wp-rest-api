@@ -18,6 +18,10 @@ Get Options
 ================
 - /wp-json/acf/`options`
 
+Get Option by Field Name
+================
+- /wp-json/acf/`<FIELD_NAME>`/options
+
 Sample Answer
 ================
 ```json
