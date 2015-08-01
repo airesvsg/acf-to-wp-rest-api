@@ -16,7 +16,7 @@ if ( ! class_exists( 'ACF_To_WP_REST_API' ) ) {
 
 	class ACF_To_WP_REST_API {
 
-		private static $CLASSES = array( 'base', 'post', 'user', 'term', 'comment', 'options' );
+		private static $CLASSES = array( 'base', 'post', 'user', 'term', 'comment', 'attachment', 'options' );
 
 		public function __construct() {
 			add_action( 'init', array( $this, 'includes' ), 90 );

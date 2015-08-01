@@ -13,6 +13,7 @@ Get ACF data by ID
 - /wp-json/acf/`<ID>`/user
 - /wp-json/acf/`<TAXONOMY>`/`<ID>`/term
 - /wp-json/acf/`<ID>`/comment
+- /wp-json/acf/`<ID>`/attachment
 
 Get Options
 ================
