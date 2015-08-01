@@ -12,7 +12,7 @@ if ( ! class_exists( 'ACF_To_WP_REST_API_Options' ) ) {
 				array( array( __CLASS__, 'get_options' ), WP_JSON_Server::READABLE ),
 			);
 
-			$routes["/acf/(?P<name>\w+)/{$this->type}"] = array( 
+			$routes["/acf/(?P<name>[\w\-\_]+)/{$this->type}"] = array( 
 				array( array( __CLASS__, 'get_options' ), WP_JSON_Server::READABLE ),
 			);
 			
