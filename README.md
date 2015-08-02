@@ -9,11 +9,11 @@ Installation
 
 Get ACF data by ID
 ================
-- /wp-json/acf/`<ID>`/post
-- /wp-json/acf/`<ID>`/user
-- /wp-json/acf/`<TAXONOMY>`/`<ID>`/term
-- /wp-json/acf/`<ID>`/comment
-- /wp-json/acf/`<ID>`/attachment
+- /wp-json/acf/post/`<ID>`
+- /wp-json/acf/user/`<ID>`
+- /wp-json/acf/term/`<ID>`/`<TAXONOMY>`
+- /wp-json/acf/comment/`<ID>`
+- /wp-json/acf/attachment/`<ID>`
 
 Get Options
 ================
@@ -21,7 +21,7 @@ Get Options
 
 Get Option by Field Name
 ================
-- /wp-json/acf/`<FIELD_NAME>`/options
+- /wp-json/acf/options/`<FIELD_NAME>`
 
 Sample Answer
 ================

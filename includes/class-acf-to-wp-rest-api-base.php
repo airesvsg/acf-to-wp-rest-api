@@ -8,7 +8,6 @@ if ( ! class_exists( 'ACF_To_WP_REST_API_Base' ) ) {
 	abstract class ACF_To_WP_REST_API_Base {
 
 		protected $type;
-
 		protected $id;
 
 		public function __construct() {
@@ -24,8 +23,8 @@ if ( ! class_exists( 'ACF_To_WP_REST_API_Base' ) ) {
 		}
 
 		public function register_routes( $routes ) {			
-			$routes["/acf/(?P<id>\d+)/{$this->type}"] = array(
-				array( array( $this, 'get_fields_by_id' ), WP_JSON_Server::READABLE )
+			$routes["/acf/{$this->type}/(?P<id>\d+)"] = array(
+				array( array( $this, 'get_fields_by_id' ), WP_JSON_Server::READABLE ),
 			);
 
 			return $routes;
@@ -87,6 +86,6 @@ if ( ! class_exists( 'ACF_To_WP_REST_API_Base' ) ) {
 		public function get_fields_by_id( $id ) {
 			return $this->get_fields( NULL, absint( $id ) );
 		}
-
+		
 	}
 }
