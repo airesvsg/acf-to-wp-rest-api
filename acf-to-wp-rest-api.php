@@ -32,4 +32,8 @@ if ( ! class_exists( 'ACF_To_WP_REST_API' ) ) {
 
 }
 
-new ACF_To_WP_REST_API();
+include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+
+if ( is_plugin_active( 'advanced-custom-fields/acf.php' ) || is_plugin_active( 'advanced-custom-fields-pro/acf.php' ) || is_plugin_active( 'acf-pro/acf.php' ) ) {
+	new ACF_To_WP_REST_API();
+}
