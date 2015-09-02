@@ -12,8 +12,12 @@ if ( ! class_exists( 'ACF_To_WP_REST_API_Base' ) ) {
 
 		public function __construct() {
 			$this->type = strtolower( str_replace( 'ACF_To_WP_REST_API_', '', get_class( $this ) ) );
-			add_filter( "json_prepare_{$this->type}", array( $this, 'get_fields' ), 10, 3 );
-			add_action( 'wp_json_server_before_serve', array( $this, 'init_routes' ) );
+			if ( class_exists( 'WP_JSON_Server' ) ) {
+				add_filter( "json_prepare_{$this->type}", array( $this, 'get_fields' ), 10, 3 );
+				add_action( 'wp_json_server_before_serve', array( $this, 'init_routes' ) );
+			} else {
+				add_action( 'rest_api_init', array( $this, 'register_routes' ) );
+			}
 		}
 
 		public function init_routes() {
@@ -23,9 +27,20 @@ if ( ! class_exists( 'ACF_To_WP_REST_API_Base' ) ) {
 		}
 
 		public function register_routes( $routes ) {			
-			$routes["/acf/{$this->type}/(?P<id>\d+)"] = array(
-				array( array( $this, 'get_fields_by_id' ), WP_JSON_Server::READABLE ),
-			);
+			if ( class_exists( 'WP_JSON_Server' ) ) {
+				$routes["/acf/{$this->type}/(?P<id>\d+)"] = array(
+					array( array( $this, 'get_fields_by_id' ), WP_JSON_Server::READABLE ),
+				);				
+			} else {
+				register_rest_route( 
+					'acf', 
+					"/{$this->type}/(?P<id>\d+)", 
+					array( 
+						'methods'  => 'GET',
+						'callback' => array( $this, 'get_fields_by_id' ),
+					)
+				);
+			}
 
 			return $routes;
 		}
@@ -35,6 +50,8 @@ if ( ! class_exists( 'ACF_To_WP_REST_API_Base' ) ) {
 
 			if ( is_numeric( $object ) ) {
 				$this->id = $object;
+			} elseif ( $object instanceof WP_REST_Request && isset( $object['id'] ) ) {
+				$this->id = $object['id'];			
 			} elseif ( is_array( $object ) && array_key_exists( 'ID', $object ) ) {
 				$this->id = $object['ID'];
 			} elseif ( is_object( $object ) ) {
@@ -47,6 +64,8 @@ if ( ! class_exists( 'ACF_To_WP_REST_API_Base' ) ) {
 				}
 			}
 
+			$this->id = absint( $this->id );
+			
 			return $this->id;
 		}
 
@@ -84,7 +103,7 @@ if ( ! class_exists( 'ACF_To_WP_REST_API_Base' ) ) {
 		}
 
 		public function get_fields_by_id( $id ) {
-			return $this->get_fields( NULL, absint( $id ) );
+			return $this->get_fields( NULL, $id );
 		}
 		
 	}
