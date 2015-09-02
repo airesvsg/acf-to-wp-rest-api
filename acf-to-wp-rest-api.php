@@ -4,7 +4,7 @@
  * Description: Get all ACF fields in WP REST API responses.
  * Author: Aires Gonçalves
  * Author URI: airesvsg.github.com
- * Version: 0.0.1
+ * Version: 0.0.2
  * Plugin URI: airesvsg.github.com/acf-to-wp-rest-api
  */
 
