@@ -14,7 +14,10 @@ if ( ! class_exists( 'ACF_To_WP_REST_API_Base' ) ) {
 			$this->type = strtolower( str_replace( 'ACF_To_WP_REST_API_', '', get_class( $this ) ) );
 			if ( class_exists( 'WP_JSON_Server' ) ) {
 				add_filter( "json_prepare_{$this->type}", array( $this, 'get_fields' ), 10, 3 );
-				add_action( 'wp_json_server_before_serve', array( $this, 'init_routes' ) );
+				add_action( 'wp_json_server_before_serve', array( $this, 'init_routes' ) );				
+			} elseif ( class_exists( 'WP_REST_Response' ) ) {
+				add_filter( "rest_prepare_{$this->type}", array( $this, 'get_fields' ), 10, 3 );				
+				add_action( 'rest_api_init', array( $this, 'register_routes' ) );
 			} else {
 				add_action( 'rest_api_init', array( $this, 'register_routes' ) );
 			}
@@ -50,10 +53,12 @@ if ( ! class_exists( 'ACF_To_WP_REST_API_Base' ) ) {
 
 			if ( is_numeric( $object ) ) {
 				$this->id = $object;
-			} elseif ( $object instanceof WP_REST_Request && isset( $object['id'] ) ) {
-				$this->id = $object['id'];			
-			} elseif ( is_array( $object ) && array_key_exists( 'ID', $object ) ) {
-				$this->id = $object['ID'];
+			} elseif ( is_array( $object ) ) {
+				if ( isset( $object['id'] ) ) {
+					$this->id = $object['id'];
+				} elseif ( isset( $object['ID'] ) ) {
+					$this->id = $object['ID'];
+				}
 			} elseif ( is_object( $object ) ) {
 				if ( isset( $object->ID ) ) {
 					$this->id = $object->ID;
@@ -95,8 +100,15 @@ if ( ! class_exists( 'ACF_To_WP_REST_API_Base' ) ) {
 		public function get_fields( $data = NULL, $object = NULL, $context = NULL ) {
 			$this->format_id( $object );
 
-			if ( ! ( $data['acf'] = get_fields( $this->id ) ) ) {
-				$data['acf'] = array();
+			$fields = array();
+			if ( $this->id ) {
+				$fields = get_fields( $this->id );
+			}
+
+			if ( $data instanceof WP_REST_Response && isset( $data->data ) ) {
+				$data->data['acf'] = $fields;
+			} elseif ( is_array( $data ) ) {
+				$data['acf'] = $fields;
 			}
 
 			return apply_filters( "acf_to_wp_rest_api_{$this->type}_data", $data, $object, $context );
