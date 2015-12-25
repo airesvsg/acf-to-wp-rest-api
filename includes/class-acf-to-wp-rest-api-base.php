@@ -61,7 +61,7 @@ if ( ! class_exists( 'ACF_To_WP_REST_API_Base' ) ) {
 				}
 			} elseif ( is_object( $object ) ) {
 				if ( $object instanceof WP_REST_Request ) {
-					$this->id = (int) $object;
+					$this->id = $object->get_param('id');
 				} elseif ( isset( $object->ID ) ) {
 					$this->id = $object->ID;
 				} elseif ( isset( $object->comment_ID ) ) {
