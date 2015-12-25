@@ -60,7 +60,9 @@ if ( ! class_exists( 'ACF_To_WP_REST_API_Base' ) ) {
 					$this->id = $object['ID'];
 				}
 			} elseif ( is_object( $object ) ) {
-				if ( isset( $object->ID ) ) {
+				if ( $object instanceof WP_REST_Request ) {
+					$this->id = (int) $object;
+				} elseif ( isset( $object->ID ) ) {
 					$this->id = $object->ID;
 				} elseif ( isset( $object->comment_ID ) ) {
 					$this->id = $object->comment_ID;
@@ -105,9 +107,13 @@ if ( ! class_exists( 'ACF_To_WP_REST_API_Base' ) ) {
 				$fields = get_fields( $this->id );
 			}
 
-			if ( $data instanceof WP_REST_Response && isset( $data->data ) ) {
+			if ( isset( $data->data ) ) {
 				$data->data['acf'] = $fields;
-			} elseif ( is_array( $data ) ) {
+			} else {
+				if ( ! is_array( $data ) ) {
+					$data = array();
+				}
+				
 				$data['acf'] = $fields;
 			}
 
