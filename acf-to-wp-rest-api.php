@@ -4,7 +4,7 @@
  * Description: Get all ACF fields in WP REST API responses.
  * Author: Aires Gonçalves
  * Author URI: airesvsg.github.com
- * Version: 1.2
+ * Version: 1.3
  * Plugin URI: airesvsg.github.com/acf-to-wp-rest-api
  */
 
@@ -16,7 +16,7 @@ if ( ! class_exists( 'ACF_To_WP_REST_API' ) ) {
 
 	class ACF_To_WP_REST_API {
 
-		private static $CLASSES = array( 'base', 'post', 'user', 'term', 'comment', 'attachment', 'options', 'custom-post-type' );
+		private static $CLASSES = array( 'base', 'post', 'page', 'user', 'term', 'comment', 'attachment', 'options', 'custom-post-type' );
 
 		public function __construct() {
 			add_action( 'init', array( $this, 'includes' ), 90 );
