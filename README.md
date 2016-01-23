@@ -1,6 +1,10 @@
+**This version was discontinued, please upgrade to V2**
+https://github.com/airesvsg/acf-to-rest-api/
+
 ACF to WP REST API
 ================
-Puts ACF data into the WP-REST-API (WP-API | WordPress JSON API)
+Puts ACF data into the WP-REST-API ( WP-API | WordPress JSON API ).
+Also you can customize the answer using filters.
 
 Installation
 ================

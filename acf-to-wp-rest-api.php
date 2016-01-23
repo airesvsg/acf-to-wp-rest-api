@@ -3,9 +3,9 @@
  * Plugin Name: ACF to WP REST API
  * Description: Get all ACF fields in WP REST API responses.
  * Author: Aires Gonçalves
- * Author URI: airesvsg.github.com
+ * Author URI: http://github.com/airesvsg
  * Version: 1.3
- * Plugin URI: airesvsg.github.com/acf-to-wp-rest-api
+ * Plugin URI: http://github.com/airesvsg/acf-to-wp-rest-api
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -23,9 +23,17 @@ if ( ! class_exists( 'ACF_To_WP_REST_API' ) ) {
 		}
 
 		public function includes() {
-			foreach ( self::$CLASSES as $class ) {
-				require_once "includes/class-acf-to-wp-rest-api-{$class}.php";
+			if ( ! class_exists( 'ACF_to_REST_API' ) ) {
+				add_action( 'admin_notices', array( __CLASS__, 'admin_notices' ) );
 			}
+
+			foreach ( self::$CLASSES as $class ) {
+				require_once "includes/classes/class-acf-to-wp-rest-api-{$class}.php";
+			}
+		}
+
+		public static function admin_notices() {
+			include_once 'includes/admin/views/html-notice-upgrade.php';
 		}
 
 	}

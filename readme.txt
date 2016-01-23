@@ -11,6 +11,9 @@ Puts ACF data into the WP-REST-API ( WP-API | WordPress JSON API ).
 Also you can customize the answer using filters.
 
 == Description ==
+**This version was discontinued, please upgrade to V2**
+https://wordpress.org/plugins/acf-to-rest-api/
+
 Puts in answers all fields of ACF.
 
 **Fork me on GitHub**
