@@ -1,6 +1,7 @@
-**This version was discontinued, please upgrade to V2**
+This version was discontinued, please upgrade to V2
+================
 
-https://github.com/airesvsg/acf-to-rest-api/
+**New version:** https://github.com/airesvsg/acf-to-rest-api/
 
 ACF to WP REST API
 ================
