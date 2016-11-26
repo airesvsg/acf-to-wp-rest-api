@@ -11,14 +11,14 @@ if ( ! class_exists( 'ACF_To_WP_REST_API_Custom_Post_Type' ) ) {
 			parent::__construct();
 			
 			$default    = array( 'post', 'page', 'attachment' );
-			$args       = apply_filters( 'acf_to_wp_rest_api_cutom_post_type_args', array( 'public' => true ) );	
+			$args       = apply_filters( 'acf_to_wp_rest_api_custom_post_type_args', array( 'public' => true ) );	
 			$post_types = get_post_types( $args );	
 			
 			if ( ! is_array( $post_types ) ) {
 				$post_types = array();
 			}
 
-			$post_types = apply_filters( 'acf_to_wp_rest_api_cutom_post_types', array_diff( $post_types, $default ) );
+			$post_types = apply_filters( 'acf_to_wp_rest_api_custom_post_types', array_diff( $post_types, $default ) );
 			
 			if ( is_array( $post_types ) && count( $post_types ) > 0 ) {
 				foreach ( $post_types as $pt ) {
